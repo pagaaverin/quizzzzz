@@ -78,19 +78,17 @@ function askCoctailsQuestions(index = 0) {
         );
       }
 
-     
       askCoctailsQuestions(index + 1);
     });
   } else {
     console.log("Вопросы закончились. Спасибо за участие!🔥");
     chooseCategory();
   }
-
 }
 function askInvestQuestions(index = 0) {
   const questions = createQuestion(questionInvest, AnswerInvest);
   const correctAnswers = {
-    0: " 17.5%",
+    0: " 17%",
     1: "Санкт-Петербурге",
     2: " акции",
     3: " одну акцию",
@@ -112,7 +110,6 @@ function askInvestQuestions(index = 0) {
         );
       }
 
-   
       askInvestQuestions(index + 1);
     });
   } else {
@@ -128,7 +125,6 @@ function chooseCategory() {
   }
   const categories = ["Коктейли", "Инвестиции"];
   const choices = categories.map((category) => {
-   
     if (categoriesCompleted[category]) {
       return `${category} (уже пройдено)`; // Добавляем метку к названию
     }
@@ -167,5 +163,3 @@ function chooseCategory() {
 }
 
 chooseCategory();
-
-
