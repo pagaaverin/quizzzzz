@@ -52,8 +52,6 @@ function createQuestion(listQuest, listAnswer) {
 }
 console.log(createQuestion(questionInvest, AnswerInvest));
 
-
-
 function askCoctailsQuestions(index = 0) {
   const questions = createQuestion(questionCostails, AnswerCoctails);
   const correctAnswers = {
@@ -62,7 +60,7 @@ function askCoctailsQuestions(index = 0) {
     2: "Маргарита",
     3: "Олд-Фешн",
     4: "Белый-Русский",
-  }
+  };
 
   if (index < questions.length) {
     play.play(`./music/icebaby.mp3`);
@@ -87,5 +85,36 @@ function askCoctailsQuestions(index = 0) {
     chooseCategory();
   }
 }
+function askInvestQuestions(index = 0) {
+  const questions = createQuestion(questionInvest, AnswerInvest);
+  const correctAnswers = {
+    0: "17.5%",
+    1: "Санкт-Петербурге",
+    2: "акции",
+    3: "одну акцию",
+    4: "инвесторов часто подверженных эмоциональным реакциям на изменения цен акций и часто делающих инвестиционные решения на основе слухов или собственных предположений",
+  };
 
+  if (index < questions.length) {
+    play.play(`./music/zvuk.mp3`);
+    inquirer.prompt([questions[index]]).then((answers) => {
+      const questionKey = Object.keys(answers)[0];
+      const userAnswer = answers[questionKey];
+      const correctAnswer = correctAnswers[questionKey];
 
+      if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+        console.log(chalk.green("Правильный ответ!✅"));
+      } else {
+        console.log(
+          chalk.red(`Неправильный ответ🚫. Правильный ответ: ${correctAnswer}`)
+        );
+      }
+
+      // Переход к следующему вопросу
+      askInvestQuestions(index + 1);
+    });
+  } else {
+    console.log("Вопросы закончились. Спасибо за участие!🔥");
+    chooseCategory();
+  }
+}
