@@ -78,14 +78,14 @@ function askCoctailsQuestions(index = 0) {
         );
       }
 
-      // Переход к следующему вопросу
+     
       askCoctailsQuestions(index + 1);
     });
   } else {
     console.log("Вопросы закончились. Спасибо за участие!🔥");
     chooseCategory();
   }
-  ///asdasdassadsadsad
+
 }
 function askInvestQuestions(index = 0) {
   const questions = createQuestion(questionInvest, AnswerInvest);
@@ -112,7 +112,7 @@ function askInvestQuestions(index = 0) {
         );
       }
 
-      // Переход к следующему вопросу
+   
       askInvestQuestions(index + 1);
     });
   } else {
@@ -128,7 +128,7 @@ function chooseCategory() {
   }
   const categories = ["Коктейли", "Инвестиции"];
   const choices = categories.map((category) => {
-    // Проверяем, была ли категория уже пройдена
+   
     if (categoriesCompleted[category]) {
       return `${category} (уже пройдено)`; // Добавляем метку к названию
     }
@@ -165,9 +165,7 @@ function chooseCategory() {
       }
     });
 }
-// Запуск выбора категории
+
 chooseCategory();
 
 
-
-//asdadassad
