@@ -1,4 +1,7 @@
+const inquirer = require("inquirer");
+const play = require("play-sound")();
 const fs = require("fs");
+const chalk = require("chalk");
 
 const AnswerCoctails = fs
   .readFileSync("./topics/coctailsname.txt", "utf-8")
@@ -33,8 +36,6 @@ function createQuestion(listQuest, listAnswer) {
   }
   return questions;
 }
-// console.log(createQuestion(questionCostails, AnswerCoctails));
-
 function createQuestion(listQuest, listAnswer) {
   const questions = [];
 
@@ -50,7 +51,6 @@ function createQuestion(listQuest, listAnswer) {
   }
   return questions;
 }
-console.log(createQuestion(questionInvest, AnswerInvest));
 
 function askCoctailsQuestions(index = 0) {
   const questions = createQuestion(questionCostails, AnswerCoctails);
@@ -64,6 +64,7 @@ function askCoctailsQuestions(index = 0) {
 
   if (index < questions.length) {
     play.play(`./music/icebaby.mp3`);
+
     inquirer.prompt([questions[index]]).then((answers) => {
       const questionKey = Object.keys(answers)[0];
       const userAnswer = answers[questionKey];
@@ -84,15 +85,16 @@ function askCoctailsQuestions(index = 0) {
     console.log("Вопросы закончились. Спасибо за участие!🔥");
     chooseCategory();
   }
+  ///asdasdassadsadsad
 }
 function askInvestQuestions(index = 0) {
   const questions = createQuestion(questionInvest, AnswerInvest);
   const correctAnswers = {
-    0: "17.5%",
+    0: " 17.5%",
     1: "Санкт-Петербурге",
-    2: "акции",
-    3: "одну акцию",
-    4: "инвесторов часто подверженных эмоциональным реакциям на изменения цен акций и часто делающих инвестиционные решения на основе слухов или собственных предположений",
+    2: " акции",
+    3: " одну акцию",
+    4: " инвесторов часто подверженных эмоциональным реакциям на изменения цен акций и часто делающих инвестиционные решения на основе слухов или собственных предположений",
   };
 
   if (index < questions.length) {
@@ -118,3 +120,54 @@ function askInvestQuestions(index = 0) {
     chooseCategory();
   }
 }
+let categoriesCompleted = {};
+function chooseCategory() {
+  if (Object.keys(categoriesCompleted).length === 2) {
+    console.log("Спасибо за игру!");
+    return;
+  }
+  const categories = ["Коктейли", "Инвестиции"];
+  const choices = categories.map((category) => {
+    // Проверяем, была ли категория уже пройдена
+    if (categoriesCompleted[category]) {
+      return `${category} (уже пройдено)`; // Добавляем метку к названию
+    }
+    return category;
+  });
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "category",
+        message: "Выберите категорию вопросов:",
+        choices: choices,
+      },
+    ])
+    .then((answers) => {
+      const selectedCategory = answers.category.replace(" (уже пройдено)", "");
+      if (categoriesCompleted[selectedCategory]) {
+        console.log(`Категория "${selectedCategory}" уже была пройдена.`);
+        chooseCategory();
+      } else {
+        switch (selectedCategory) {
+          case "Коктейли":
+            askCoctailsQuestions();
+            categoriesCompleted[selectedCategory] = true;
+            break;
+          case "Инвестиции":
+            askInvestQuestions();
+            categoriesCompleted[selectedCategory] = true;
+            break;
+          default:
+            console.log("Категория не выбрана");
+            break;
+        }
+      }
+    });
+}
+// Запуск выбора категории
+chooseCategory();
+
+
+
+//asdadassad
